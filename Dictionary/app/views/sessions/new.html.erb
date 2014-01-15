@@ -1,0 +1,11 @@
+
+<%= form_for(:sessions, :url => sessions_path) do |form|%>
+
+
+	<h2>Sign In</h2>
+    <input id="session_username" name="session[username]" class="form-control" placeholder="Username" type="text" style="height:34px;">
+    <br>
+    <input id="session_password" name="session[password]" class="form-control" placeholder="Password" type="password" style="height:34px;">
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign In</button>
+<% end %>
+        

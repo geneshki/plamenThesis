@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Dictionary</title>
+
+  <script data-turbolinks-track="true" src="new.html_files/application.html"></script>
+  <meta content="authenticity_token" name="csrf-param">
+    <meta content="OsEIRgzfNxBcX07M0/cb+4kAn94GEc+jh5y2BhN9X4c=" name="csrf-token">
+
+  
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="http://getbootstrap.com/docs-assets/ico/favicon.png">
+    <title>Signin Template for Bootstrap</title>
+    <link href="new.html_files/bootstrap.html" rel="stylesheet"> 
+</head>
+<body>
+  
+
+    <div class="container">
+        <%= form_for @reg do |form| %>
+        <h2>Register</h2>
+        <input id="reg_username" name="reg[username]" class="form-control" placeholder="Username" type="text" style="height:34px;">
+        <br>
+        <input id="reg_password" name="reg[password]" class="form-control" placeholder="Password" type="password" style="height:34px;">
+        <br>
+        <input id="reg_cpassword" name="reg[cpassword]" class="form-control" placeholder="Confirm Password" type="password" style="height:34px;">
+        <br>
+        <input id="reg_email" name="reg[email]" class="form-control" placeholder="Email address" type="text" style="height:34px;">
+        <br>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Create Registration</button>
+        <% end %>
+        
+        
+    </div>
+  
+
+
+
+
+</body></html>
