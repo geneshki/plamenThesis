@@ -2,9 +2,9 @@ class Registration < ActiveRecord::Base
 
 	class << self
 		def authenticate(log_username="", log_password="")
-			@reg = Registration.find_by_username(log_username)
+			@reg = Registration.where(username: log_username).take
 
-			if @reg && (@reg.password == log_password)
+			if @reg
 				return @reg
 			else
 				return false

@@ -6,18 +6,19 @@ class SessionsController < ApplicationController
   end
   def create
     debugger
-    @usr = params[:session][:username]
-    @pass = params[:session][:password]
-      @reg = Registration.find_by_username(@usr)
-  		reg = Registration.authenticate(params[:session][:username],session[:password])
+   
+  		reg = Registration.authenticate(params[:session][:username])
 
   	if reg.nil?
   		flash.now[:error] = "Invalid username or password"
   		render new  		
-  	else
-  			
+  	elsif reg.password != params[:session][:password]
+      flash.now[:error] = "Invalid username or password"
+      render new  
+    else
+  		@test = "qq"
   	end
-  	render new
+  	
   end
 
   def destroy
