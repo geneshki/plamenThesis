@@ -1,4 +1,6 @@
 class RegistrationsController < ApplicationController
+	before_filter :authenticte_reg, :only => []
+	before_filter :save_login_state, :only => [:new,:create]  
 	def index
 	end
 
