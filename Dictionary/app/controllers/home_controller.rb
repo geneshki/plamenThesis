@@ -1,6 +1,7 @@
 class HomeController < ApplicationController
   def index
- 
+    @words = Word.all
+
   end
 
   def loged
@@ -18,7 +19,5 @@ class HomeController < ApplicationController
   def create
 
   end
-
- 
   
 end

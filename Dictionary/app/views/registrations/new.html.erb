@@ -19,7 +19,28 @@
     <link href="new.html_files/bootstrap.html" rel="stylesheet"> 
 </head>
 <body>
-  
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Dictionary</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <form class="navbar-form navbar-right" role="form">
+            <a href="/sessions/new" role="button" class="btn btn-primary">Sign In</a> 
+          </form>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="jumbotron">
+    </div>
 
     <div class="container">
         <%= form_for @reg do |form| %>
@@ -32,7 +53,7 @@
         <br>
         <input id="reg_email" name="reg[email]" class="form-control" placeholder="Email address" type="text" style="height:34px;">
         <br>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Create Registration</button>
+        <button class="btn btn-lg btn-primary btn-block" type="submit" style="width:150px">Create Registration</button>
         <% end %>
         
         

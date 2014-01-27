@@ -8,7 +8,7 @@ class SessionsController < ApplicationController
   	
   end
   def create
-   
+      
     	reg = Registration.authenticate(params[:session][:username],params[:session][:password])
     
     	if reg

@@ -13,20 +13,25 @@ class RegistrationsController < ApplicationController
 	end
 
 	def create
-	
+			
 			@reg_params = regitration_params
-			#sha1 the password
-			@reg_params.except!(:cpassword)
-		
-			if password_check(@reg_params[:password],@reg_params[:cpassword])
-				if @reg.save
-					redirect_to registrations_path
-				else
-					render "new"
-				end
+			@ex_reg = Registration.where(username: @reg_params[:username]).take
+
+			if @ex_reg 
+				#username_taken
 			else
-				#Error
-				@a = "fail"
+				if password_check(@reg_params[:password],@reg_params[:cpassword])
+					@reg_params.except!(:cpassword)
+					@reg = Registration.new(@reg_params)
+					if @reg.save
+						redirect_to(:controller => "home", :action =>"index")
+					else
+						render "new"
+					end
+				else
+					#Error
+					@a = "fail"
+				end
 			end
 		
 	end

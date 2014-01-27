@@ -6,7 +6,7 @@ class Registration < ActiveRecord::Base
 			@reg = Registration.where(username: log_username).take
 
 			if @reg
-				if @reg.password = log_password
+				if @reg.password == log_password
 					return @reg
 				else
 					return false

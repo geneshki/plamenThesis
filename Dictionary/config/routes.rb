@@ -1,11 +1,13 @@
 Dictionary::Application.routes.draw do
 
   get "sessions/new"
+  get "words/new"
   get "sessions/create"
   get "sessions/destroy"
   get "home/index"
   resources :registrations
   resources :home
+  resources :words
   resources :sessions, :only => [:new, :create, :destroy]
   
   # The priority is based upon order of creation: first created -> highest priority.
