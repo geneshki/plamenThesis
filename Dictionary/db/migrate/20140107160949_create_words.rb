@@ -5,6 +5,7 @@ class CreateWords < ActiveRecord::Migration
       t.string :word
       t.text :description
       t.string :language
+      t.string :author
       t.integer :votes
 
       t.timestamps

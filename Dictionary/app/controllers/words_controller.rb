@@ -5,8 +5,10 @@ class WordsController < ApplicationController
 	end
 
 	def create
+	#	debugger
 		@word_params = word_params
-
+		@author = Registration.where(id: session[:reg_id])
+	#	@kur = @author[:username]
 		@word = Word.new(@word_params)
 
 		if @word.save

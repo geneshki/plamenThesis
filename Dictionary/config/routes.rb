@@ -6,7 +6,7 @@ Dictionary::Application.routes.draw do
   get "sessions/destroy"
   get "home/index"
   resources :registrations
-  resources :home
+  resources :home, :only => [:index]
   resources :words
   resources :sessions, :only => [:new, :create, :destroy]
   

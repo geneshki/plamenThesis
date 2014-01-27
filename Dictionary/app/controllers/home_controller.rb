@@ -1,7 +1,10 @@
 class HomeController < ApplicationController
   def index
-    @words = Word.all
-
+      @src = Word.where(word: "pie").take
+      if params[:src]
+        @search = params[:src]
+        @src = Word.where(word: @search).take
+      end    
   end
 
   def loged

@@ -50,24 +50,28 @@
         <p>asdf</p>
       </div>
       <div class="span8">
-        <% @words.each do |word| %>
-          <h1><%= word.word %></h1>
-          <p><%= word.description %></p>
-        <% end %>
+          <div class="span2" style="">
+            <h1><%= @src.word %></h1>
+          </div>
+          <div class="span3"></div>
+          
+          <div class="span6">
+              <p><%= @src.description %></p>
+          </div>
       </div>  
   <% if session[:reg_id]%>
     <div class="span2">
       <a href="/words/new" class="btn btn-primary">Add a word</a>
     </div>
   <% end %>
-  <%= form_tag do %>
+    <form action="/home/index" method="get">
     <div class="span3">
-      <input type="text" style="height:32px" placeholder="search for a word">
+      <input id="src" name="src" type="text" style="height:32px" placeholder="search for a word">
     </div>
     <div class="span2">
       <button class="btn btn-lg btn-primary btn-block" style="width:100px">Search</button>
     </div>
-  <% end %>  
+    </form>
     <script type="text/javascript" src="assets/javascript/modal.js"/>
   </body>
 </html>
