@@ -6,7 +6,8 @@ class CreateWords < ActiveRecord::Migration
       t.text :description
       t.string :language
       t.string :author
-      t.integer :votes
+      t.integer :upvotes
+      t.integer :downvotes
 
       t.timestamps
     end

@@ -1,9 +1,11 @@
 class HomeController < ApplicationController
   def index
-      @src = Word.where(word: "pie").take
+      #params[:src] = "pie"
       if params[:src]
+        #debugger
         @search = params[:src]
-        @src = Word.where(word: @search).take
+        @src = Word.where(word: @search).to_a
+        #@a ="asdf"
       end    
   end
 

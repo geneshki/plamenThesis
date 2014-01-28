@@ -46,19 +46,32 @@
     </div>
 
     
-      <div class="span1" style="background:black">
-        <p>asdf</p>
+      <div class="span2" >
+        <ul class="nav nav-tabs nav-stacked">
+            <li class="active">
+                <a href="#">Home</a>
+            </li>
+            <li>
+              <a href="#">random</a>
+            </li>
+        </ul>
       </div>
-      <div class="span8">
-          <div class="span2" style="">
-            <h1><%= @src.word %></h1>
-          </div>
-          <div class="span3"></div>
-          
-          <div class="span6">
-              <p><%= @src.description %></p>
-          </div>
-      </div>  
+        
+        <div class="span8">
+          <% if @src 
+          @src.each do |word| %>
+            <div class="span2" style="">
+             <h1><%= word.word %></h1>
+            </div>
+            <div class="span3"></div>
+            
+            <div class="span6">
+                <p><%= word.description %></p>
+            </div>
+            <% end %>
+        <% end %>
+        </div>
+        
   <% if session[:reg_id]%>
     <div class="span2">
       <a href="/words/new" class="btn btn-primary">Add a word</a>
