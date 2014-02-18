@@ -1,0 +1,25 @@
+a{
+	color:black;
+}
+
+a[name = "ed"]{
+	margin-left:150px;
+	margin-bottom: 20px;
+}
+
+.error_container{
+	background-color: white;
+	margin-top: 20px;
+	border-radius: 20px;
+	width: 600px;
+	margin-left: 300px;
+}
+
+.error{
+	padding-left: 170px;
+}
+#wordlink{
+	font-size: 30px;
+	
+}
+

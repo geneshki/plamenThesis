@@ -15,22 +15,35 @@ class RegistrationsController < ApplicationController
 	def create
 			
 			@reg_params = regitration_params
-			@ex_reg = Registration.where(username: @reg_params[:username]).take
-
-			if @ex_reg 
-				#username_taken
+			
+			if @reg_params[:username].blank? || @reg_params[:password].blank? || @reg_params[:email].blank?
+				$error = "Fill in all the fields!"
+				redirect_to(:controller => "registrations", :action =>"new")
 			else
-				if password_check(@reg_params[:password],@reg_params[:cpassword])
-					@reg_params.except!(:cpassword)
-					@reg = Registration.new(@reg_params)
-					if @reg.save
-						redirect_to(:controller => "home", :action =>"index")
-					else
-						render "new"
-					end
+				if !email_check(@reg_params[:email])
+					$error = "Invalid email!"
+					redirect_to(:controller => "registrations", :action =>"new")
 				else
-					#Error
-					@a = "fail"
+					@ex_reg = Registration.where(username: @reg_params[:username]).take
+					if @ex_reg 
+						$error = "Username taken!"
+						@reg = nil
+						redirect_to(:controller => "registrations", :action =>"new")
+					else
+						if password_check(@reg_params[:password],@reg_params[:cpassword])
+							@reg_params.except!(:cpassword)
+							@reg = Registration.new(@reg_params)
+							if @reg.save
+								redirect_to(:controller => "home", :action =>"index")
+							else
+								render "new"
+							end
+						else
+							$error= "Passwords don't match!"
+							@reg = nil
+							redirect_to(:controller => "registrations", :action =>"new")
+						end
+					end
 				end
 			end
 		
@@ -62,15 +75,22 @@ class RegistrationsController < ApplicationController
 	public
 
 	def edit
-		
+		@reg =  Registration.find(params[:id])
 	end
 
 	def update
-		
+		@reg =  Registration.find(params[:id])
+
+		if @reg.update_attributes(regitration_params)
+			redirect_to(:controller => 'home', :action =>'index')
+		end
 	end
 
 	def destroy
-		
+		@reg = Registration.find(params[:id])
+		@reg.destroy
+		session[:reg_id] = nil
+    	redirect_to(:controller => 'home', :action =>'index')
 	end
 
 	

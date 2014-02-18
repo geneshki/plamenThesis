@@ -10,7 +10,7 @@
     <link rel="shortcut icon" href="http://getbootstrap.com/docs-assets/ico/favicon.png">
 
     <link href="app/assets/stylesheets/bootstrap.css" rel="stylesheet">
-
+    <link href="app/assets/stylesheets/custom.css" rel="stylesheet">
 </head>
 
   <body>
@@ -28,6 +28,7 @@
         </div>
         <div class="navbar-collapse collapse">
           <form class="navbar-form navbar-right" role="form">
+            <a href="/home/index" role="button" class="btn btn-primary">Home</a> 
             <a href="/registrations/new" role="button" class="btn btn-primary">Register</a>
           </form>
         </div>
@@ -36,6 +37,12 @@
 
     
     <div class="jumbotron">
+      <% if $error %>
+        <div class="error_container">
+            <p class="error"><%= $error %></p>
+        </div>
+        <% $error = nil %>
+      <% end %>
     </div>
 
 

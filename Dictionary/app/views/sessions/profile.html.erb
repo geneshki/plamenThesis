@@ -4,15 +4,9 @@
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <title>Dictionary</title>
 
-  <script data-turbolinks-track="true" src="new.html_files/application.html"></script>
-  <meta content="authenticity_token" name="csrf-param">
-    <meta content="OsEIRgzfNxBcX07M0/cb+4kAn94GEc+jh5y2BhN9X4c=" name="csrf-token">
-
-  
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
     <meta name="description" content="">
     <meta name="author" content="">
     <link href="app/assets/stylesheets/bootstrap.css" rel="stylesheet">
@@ -32,7 +26,6 @@
         </div>
         <div class="navbar-collapse collapse">
           <form class="navbar-form navbar-right" role="form">
-        
               <p class="navbar-brand">Wellcome, <%=session[:reg_username]%></p>
               <a href="/sessions/destroy" role="button" class="btn btn-primary">Log Out</a>
               <a href="/home/index" role="button" class="btn btn-primary">Home</a>
@@ -42,26 +35,40 @@
     </div>
 
     <div class="jumbotron">
-      <% if $error%>
-      <div class="error_container">
-        <p class="error"><%= $error %></p>
-      </div>
-      <% $error = nil%>
-      <% end %>
     </div>
-		<div class="container">
-			<h2>Word</h2>
-			<%= form_for @word do |form| %>
-				<input id="word_word" name="word[word]"  type="text" placeholder="Word" style="height:34px;">
-				<br>
-				<textarea id="word_description" name="word[description]" class="form-control" placeholder="Description"></textarea>
-				<br>
-				<input id="word_language" name="word[language]" style="height:38px;" type="text" placeholder="Language">
-				<br>
-				 <button class="btn btn-lg btn-primary btn-block" type="submit" style="width:150px">Create
-			<% end %>
-		</div>
-		
+  
+    <div class="span12">
+      <div class="row">
+        <div class="span2">
+          <p>username: <%= @acc.username%></p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="span3 ">
+          <p>email: <%= @acc.email%></p>
+       </div>
+      </div>
+      <div class="row">
+        <div class="span1">
+          <%= link_to "Edit", edit_registration_path(@acc), class: "btn btn-primary"%>
+       </div>
+       <div class="span2">
+          <%= link_to "Delete", @acc  , :confirm => "Are you sure?", :method => :delete, class: "btn btn-primary"%>
+       </div>
+      </div>
+    </div>
+    <div class="span3" style="border:solid; margin-top:5px;border: 1px solid #DDDDDD;border-top-right-radius:3em;">
+      <h4 style="padding-left:10px;">Words by <%= @acc.username%></h4>
+      <hr>
+      <% @words.each do |word|%>
+        
+        <div class="span2"><a href="/home/index?src=<%= word.word%>"><%= word.word%></a></div>
+        </br>
+        <%end%>
+    </div>
+
+
+
     <script type="text/javascript" src="assets/javascript/bootstrap.js"/>
 	</body>
 </html>

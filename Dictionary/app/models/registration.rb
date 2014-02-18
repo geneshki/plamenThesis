@@ -16,6 +16,5 @@ class Registration < ActiveRecord::Base
 			end
 		end
 		
-
 	end
 end

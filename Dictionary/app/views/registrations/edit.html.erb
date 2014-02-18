@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Dictionary</title>
+
+  <script data-turbolinks-track="true" src="new.html_files/application.html"></script>
+  <meta content="authenticity_token" name="csrf-param">
+    <meta content="OsEIRgzfNxBcX07M0/cb+4kAn94GEc+jh5y2BhN9X4c=" name="csrf-token">
+
+  
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="app/assets/stylesheets/bootstrap.css" rel="stylesheet">
+    <link href="app/assets/stylesheets/bootstrap-select.css" rel="stylesheet">
+</head>
+	<body>
+		<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+          </button>
+          <a class="navbar-brand" href="#">Dictionary</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <form class="navbar-form navbar-right" role="form">
+            <% if session[:reg_id].nil? %>
+            <a href="/sessions/new" role="button" class="btn btn-primary">Sign In</a> 
+            <a href="/registrations/new" role="button" class="btn btn-primary">Register</a>
+            <% end %>
+            <% if session[:reg_id]%>
+              <p class="navbar-brand">Wellcome, <%=session[:reg_username]%></p>
+              <a href="/sessions/destroy" role="button" class="btn btn-primary">Log Out</a>
+            <%end%>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="jumbotron">
+    </div>
+    <div class="container">
+      <h2>Edit registration</h2>
+        <%= form_for @reg do |form| %>
+        <input id="reg_email" name="reg[email]"  type="text" placeholder="New email" style="height:34px;" value="">
+        <br>
+        <input id="reg_password" name="reg[password]" style="height:38px;" type="text" placeholder="New password" value="">
+        <br>
+         <button class="btn btn-lg btn-primary btn-block" type="submit" style="width:150px">Save changes
+        <% end %>
+    </div>
+
+
+
+
+
+    <script type="text/javascript" src="assets/javascript/bootstrap.js"/>
+	</body>
+</html>

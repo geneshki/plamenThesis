@@ -1,15 +1,16 @@
 Dictionary::Application.routes.draw do
 
-  get "sessions/new"
+  get "login", :to => "sessions#new"
   get "words/new"
   get "sessions/create"
   get "sessions/destroy"
-  get "home/index"
+  get "sessions/profile"
+  get "index", :to => "home#index"
+  get "random", :to => "home#random"
   resources :registrations
   resources :home, :only => [:index]
   resources :words
-  resources :sessions, :only => [:new, :create, :destroy]
-  
+  resources :sessions, :only => [:new, :create, :destroy]  
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

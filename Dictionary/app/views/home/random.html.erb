@@ -29,13 +29,12 @@
         <div class="navbar-collapse collapse">
           <form class="navbar-form navbar-right" role="form">
             <% if session[:reg_id].nil? %>
-            <a href="/login" role="button" class="btn btn-primary">Sign In</a> 
+            <a href="/sessions/new" role="button" class="btn btn-primary">Sign In</a> 
             <a href="/registrations/new" role="button" class="btn btn-primary">Register</a>
             <% end %>
             <% if session[:reg_id]%>
               <p class="navbar-brand">Wellcome, <%=session[:reg_username]%></p>
               <a href="/sessions/destroy" role="button" class="btn btn-primary">Log Out</a>
-              <a href="/sessions/profile" role="button" class="btn btn-primary">Profile</a>
             <%end%>
           </form>
         </div>
@@ -43,28 +42,7 @@
     </div>
 
     
-    <div class="jumbotron ">
-      <%if $error%>
-        <%if $error == "Word doesn't exist." && session[:reg_id]%>
-          <div class="error_container">
-            <p class="error"><%= $error %><a href="/words/new"> Add it?</a></p>
-            <% $error= nil %>
-          </div>
-        <% end %>
-        <%if $error == "Word doesn't exist." && !session[:reg_id]%>
-          <% $error= "No such word." %>
-          <div class="error_container">
-            <p class="error"><%= $error %><a href="/registrations/new"> Register to add it?</a></p>
-            <% $error= nil %>
-          </div>
-        <% end %>
-        <%if $error%>
-          <div class="error_container">
-            <p class="error"><%= $error %></p>
-          </div>
-        <%end%>
-      <% end %>
-      <% $error= nil %>
+    <div class="jumbotron">
     </div>
 
     
@@ -78,72 +56,69 @@
             </li>
             <%("a".."z").each do |letter|%>
             <li>
-              <a href="/index?letter=<%= letter %>"><%= letter %></a>
+              <a href="#"><%= letter %></a>
             </li>
             <% end %>
         </ul>
       </div>
-        
-        <div class="span8">
-          <% if @src
+        <%  @desc = @rand.description.split(/ /)
             @author = Registration.where(id: session[:reg_id]).take
-              if @author
+            if @author
+
                 @author_username = @author.username
               end
-              @src.each do |word|
-                
-              @up = (word.votes.to_f / (word.votes+word.downvotes))*100
-              @down = (word.downvotes.to_f / (word.votes+word.downvotes))*100
-                  
-               
-              @desc = word.description.split(/(\b[^\s]+\b)/)
-          %>
-          
-            <div id="description" class="span7" style="border:solid; margin-top:5px;border: 1px solid #DDDDDD;border-top-right-radius:3em;">
+            if @rand.votes == 0
+                  @up = 0
+                else
+                  if @rand.downvotes == 0
+                    @down = 0
+                  else
+                    @up = (@rand.votes.to_f / (@rand.votes+@rand.downvotes))*100
+                    @down = (@rand.downvotes.to_f / (@rand.votes+@rand.downvotes))*100
+                  end
+                end
 
-            <div class="span2" style="margin-top:20px;">
-             <a id="wordlink" href="/index?src=<%=word.word%>"><%=word.word%></a>
-             <hr>
-            </div>
-            <div class="span6">
+         %>
+        <div class="span8">
+          <div class="span7" style="border:solid; margin-top:5px;border: 1px solid #DDDDDD;border-top-right-radius:3em;">
+              <div class="span2">
+                <h1><%= @rand.word %></h1>
+                <hr>
+              </div>
+              <div class="span6">
                 <p>
                   <% @desc.each do |desc|%>
                     <a href="/index?src=<%= desc %>"><%= desc %></a>
                   <% end %>
                 </p>
             </div>
-
             <div class="span6">
               <hr>
               <div class="progress">
                 <div class="progress-bar progress-bar-success" style="width:<%= @up %>%">
                   
-                  <p><%= word.votes %></p>
+                  <p><%= @rand.votes %></p>
                 </div>
                 <div class="progress-bar progress-bar-danger" style="width:<%= @down %>%">
                   
-                  <p><%= word.downvotes%></p>
+                  <p><%= @rand.downvotes%></p>
                 </div>
               </div>
               <button id="up" class="btn btn-success">+</button>
               <button id="down" class="btn btn-danger">-</button>
             </div>
-
             <div class="span2">
-              <p>by <%= word.author %></p>
+              <p>by <%= @rand.author %></p>
             </div>
-            <% if @author_username == word.author %>
+            <% if @author_username == @rand.author %>
             <div class="span1">
-              <%= link_to "Edit", edit_word_path(word), class: "btn btn-primary", name: "ed"%>
+              <%= link_to "Edit", edit_word_path(@rand), class: "btn btn-primary", name: "ed"%>
             </div>
             <div class="span1" name="ed">
-              <%= link_to "Delete", word, :confirm => "Are you sure?", :method => :delete, class: "btn btn-primary", name: "ed"%>
-            </div>
+              <%= link_to "Delete", @rand, :confirm => "Are you sure?", :method => :delete, class: "btn btn-primary", name: "ed"%>
+            </div>  
             <% end %>
-            </div>
-
-            <% end %>
-        <% end %>
+          </div>
         </div>
         
   <% if session[:reg_id]%>
@@ -151,7 +126,7 @@
       <a href="/words/new" class="btn btn-primary">Add a word</a>
     </div>
   <% end %>
-  <% if !session[:reg_id] %>
+  <% if !session[:reg_id]%>
     <div class="span2"></div>
   <% end %>
     <form action="/index" method="get">
@@ -160,35 +135,23 @@
     </div>
      <button class="btn btn-lg btn-primary btn-block" style="width:100px">Search</button>
     </form>
+    <div class="span2"></div>
     <form action="/index" method="get">
-    <%if @src%>
-      <div class="span2"></div>
-    <% end %>
-    <% if !@src%>
-      <div class="span10"></div>
-    <%end%>
     <div class="span3">
       <input id="usr" name="usr" type="text" style="height:32px" placeholder="search words by user">
     </div>
      <button class="btn btn-lg btn-primary btn-block" style="width:100px">Search</button>
     </form>
     <form action="/index" method="get">
-    <%if @src%>
-      <div class="span2"></div>
-    <% end %>
-    <% if !@src%>
-      <div class="span10"></div>
-    <%end%>
+    <div class="span2"></div>
     <div class="span3">
       <input id="lang" name="lang" type="text" style="height:32px" placeholder="search words by language">
     </div>
      <button class="btn btn-lg btn-primary btn-block" style="width:100px">Search</button>
     </form>
     <script type="text/javascript" src="assets/javascript/bootstrap.js"/>
-     <script type="text/javascript" src="assets/javascript/votes.js"/>
     <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"/>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"/>
- 
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"/>
+    <script type="text/javascript" src="assets/javascript/votes.js"></script>
   </body>
 </html>

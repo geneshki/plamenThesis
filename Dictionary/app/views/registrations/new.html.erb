@@ -16,7 +16,7 @@
     <meta name="author" content="">
     <link rel="shortcut icon" href="http://getbootstrap.com/docs-assets/ico/favicon.png">
     <title>Signin Template for Bootstrap</title>
-    <link href="new.html_files/bootstrap.html" rel="stylesheet"> 
+   
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -32,6 +32,7 @@
         </div>
         <div class="navbar-collapse collapse">
           <form class="navbar-form navbar-right" role="form">
+            re<a href="/home/index" role="button" class="btn btn-primary">Home</a> 
             <a href="/sessions/new" role="button" class="btn btn-primary">Sign In</a> 
           </form>
         </div>
@@ -40,6 +41,12 @@
 
     
     <div class="jumbotron">
+      <%if $error%>
+        <div class="error_container">
+          <p class="error"><%= $error %></p>
+        </div>
+      <% end %>
+      <% $error= nil %>
     </div>
 
     <div class="container">

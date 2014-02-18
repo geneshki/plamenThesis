@@ -32,36 +32,39 @@
         </div>
         <div class="navbar-collapse collapse">
           <form class="navbar-form navbar-right" role="form">
-        
+            <% if session[:reg_id].nil? %>
+            <a href="/sessions/new" role="button" class="btn btn-primary">Sign In</a> 
+            <a href="/registrations/new" role="button" class="btn btn-primary">Register</a>
+            <% end %>
+            <% if session[:reg_id]%>
               <p class="navbar-brand">Wellcome, <%=session[:reg_username]%></p>
               <a href="/sessions/destroy" role="button" class="btn btn-primary">Log Out</a>
-              <a href="/home/index" role="button" class="btn btn-primary">Home</a>
+            <%end%>
           </form>
         </div>
       </div>
     </div>
 
     <div class="jumbotron">
-      <% if $error%>
-      <div class="error_container">
-        <p class="error"><%= $error %></p>
-      </div>
-      <% $error = nil%>
+    </div>
+    <div class="container">
+      <h2>Edit the word</h2>
+      <%= form_for @word do |form| %>
+        <input id="word_word" name="word[word]"  type="text" placeholder="Word" style="height:34px;" value="<%= @word.word %>">
+        <br>
+        <textarea id="word_description" value="asdf" name="word[description]" class="form-control" placeholder="<%= @word.description%>"></textarea>
+
+        <br>
+        <input id="word_language" name="word[language]" style="height:38px;" type="text" placeholder="Language" value="<%= @word.language %>">
+        <br>
+         <button class="btn btn-lg btn-primary btn-block" type="submit" style="width:150px">Save changes
       <% end %>
     </div>
-		<div class="container">
-			<h2>Word</h2>
-			<%= form_for @word do |form| %>
-				<input id="word_word" name="word[word]"  type="text" placeholder="Word" style="height:34px;">
-				<br>
-				<textarea id="word_description" name="word[description]" class="form-control" placeholder="Description"></textarea>
-				<br>
-				<input id="word_language" name="word[language]" style="height:38px;" type="text" placeholder="Language">
-				<br>
-				 <button class="btn btn-lg btn-primary btn-block" type="submit" style="width:150px">Create
-			<% end %>
-		</div>
-		
+
+
+
+
+
     <script type="text/javascript" src="assets/javascript/bootstrap.js"/>
 	</body>
 </html>
