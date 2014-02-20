@@ -1,17 +1,35 @@
 $(document).ready(function(){
-	$("#letter").hide();
-	$("#span7").each(function() {
-		var word = $("#word_name").text();
-		alert( 'asdf');
-		$.ajax();
-	});
-/*	.click(function(){
-			alert( 'asdf');
-	  	});
-	
-		$( "#down" ).click(function(){
-			alert( "Decrease the votes" );
+		
+			
+			$("#id").each(function(){
+
+				var id = $("#id").text();
+				$("#down").click(function(){
+				$.ajax({
+					url:'words/dec_votes',
+					method:'GET',
+					data: {
+	            		'word': id
+	    			},
+					dataType: "json"
+				});
+
+			});
+			$("#up").click(function(){
+				$.ajax({
+					url:'words/inc_votes',
+					method:'GET',
+					data: {
+	            		'word': id
+	    			},
+					dataType: "json"
+				});
+
+			});
+
+			});
+		$( document ).ajaxComplete(function(){
+			location.reload(true);	
 		});
-	
-	});*/
-	)
+				
+		});

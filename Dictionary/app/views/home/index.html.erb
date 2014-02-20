@@ -103,6 +103,7 @@
 
             <div class="span2" style="margin-top:20px;">
              <a id="wordlink" href="/index?src=<%=word.word%>"><%=word.word%></a>
+             <p id="id"><%=word.id%></p>
              <hr>
             </div>
             <div class="span6">
@@ -125,8 +126,10 @@
                   <p><%= word.downvotes%></p>
                 </div>
               </div>
-              <button id="up" class="btn btn-success">+</button>
-              <button id="down" class="btn btn-danger">-</button>
+              <% if session[:reg_id]%>
+                <button id="up" class="btn btn-success">+</button>
+                <button id="down" class="btn btn-danger">-</button>
+              <% end %>
             </div>
 
             <div class="span2">

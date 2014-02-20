@@ -5,6 +5,8 @@ Dictionary::Application.routes.draw do
   get "sessions/create"
   get "sessions/destroy"
   get "sessions/profile"
+  get "words/inc_votes"
+  get "words/dec_votes"
   get "index", :to => "home#index"
   get "random", :to => "home#random"
   resources :registrations

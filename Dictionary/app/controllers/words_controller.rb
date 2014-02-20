@@ -43,18 +43,26 @@ class WordsController < ApplicationController
 
 	def destroy
 		@word = Word.find(params[:id])
+		@rel = @word.word
 		@word.destroy
-    	redirect_to(:controller => 'home', :action =>'index')
-	end
-
-	def inc_votes
-		@word = Word.find(params[:id])
-		@word.votes = @word.votes+1
-		redirect_to(:controller => 'home', :action =>'index')
+    	redirect_to :back
 	end
 
 	def dec_votes
-		@word = Word.find(params[:id])
+		@word_id = params[:word]
+		@word = Word.where(id: @word_id).take!
+		@new_votes = @word.downvotes+1
+		@word.update_attribute(:downvotes, @new_votes)
+		redirect_to :back
+	end
+
+	def inc_votes
+	
+		@word_id = params[:word]
+		@word = Word.where(id: @word_id).take!
+		@new_votes = @word.votes+1
+		@word.update_attribute(:votes, @new_votes)
+		redirect_to :back
 	end
 
 	private
