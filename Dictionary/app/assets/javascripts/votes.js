@@ -1,26 +1,29 @@
 $(document).ready(function(){
 		
 			
-			$("#id").each(function(){
-
-				var id = $("#id").text();
-				$("#down").click(function(){
+			$(".span7").each(function(){
+					
+				var id = $(this).attr('id');
+				
+				$("#d"+id).click(function(){
+				
 				$.ajax({
 					url:'words/dec_votes',
 					method:'GET',
 					data: {
-	            		'word': id
+	            		'id': id
 	    			},
 					dataType: "json"
 				});
 
 			});
-			$("#up").click(function(){
+			$("#u"+id).click(function(){
+				
 				$.ajax({
 					url:'words/inc_votes',
 					method:'GET',
 					data: {
-	            		'word': id
+	            		'id': id
 	    			},
 					dataType: "json"
 				});

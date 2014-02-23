@@ -1,5 +1,6 @@
-class Word < ActiveRecord::Base
+#require "Statistics2"
 
+class Word < ActiveRecord::Base
 	class << self
 		def inc_votes(word)
 			@word = Word.where(word: word).take!

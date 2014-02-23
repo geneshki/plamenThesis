@@ -49,7 +49,8 @@ class WordsController < ApplicationController
 	end
 
 	def dec_votes
-		@word_id = params[:word]
+		
+		@word_id = params[:id]
 		@word = Word.where(id: @word_id).take!
 		@new_votes = @word.downvotes+1
 		@word.update_attribute(:downvotes, @new_votes)
@@ -57,8 +58,7 @@ class WordsController < ApplicationController
 	end
 
 	def inc_votes
-	
-		@word_id = params[:word]
+		@word_id = params[:id]
 		@word = Word.where(id: @word_id).take!
 		@new_votes = @word.votes+1
 		@word.update_attribute(:votes, @new_votes)
