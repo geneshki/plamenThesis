@@ -28,7 +28,7 @@
           <form class="navbar-form navbar-right" role="form">
               <p class="navbar-brand">Wellcome, <%=session[:reg_username]%></p>
               <a href="/sessions/destroy" role="button" class="btn btn-primary">Log Out</a>
-              <a href="/home/index" role="button" class="btn btn-primary">Home</a>
+              <a href="/index" role="button" class="btn btn-primary">Home</a>
           </form>
         </div>
       </div>
@@ -44,8 +44,8 @@
         </div>
       </div>
       <div class="row">
-        <div class="span3 ">
-          <p>email: <%= @acc.email%></p>
+        <div class="span3">
+          <p>email: <%=@acc.email%></p>
        </div>
       </div>
       <div class="row">
@@ -62,7 +62,7 @@
       <hr>
       <% @words.each do |word|%>
         
-        <div class="span2"><a href="/home/index?src=<%= word.word%>"><%= word.word%></a></div>
+        <div class="span2"><a href="/index?src=<%= word.word%>"><%= word.word%></a></div>
         </br>
         <%end%>
     </div>

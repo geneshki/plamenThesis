@@ -19,8 +19,9 @@ class WordsController < ApplicationController
 			@author = @author.username
 			@word = Word.new(@word_params)
 			@word.author = @author
-			@word.votes = 2;
-			@word.downvotes = 3;
+			@word.factor = 0;
+			@word.votes = 0;
+			@word.downvotes = 0;
 			if @word.save
 				redirect_to(:controller => "home", :action => "index")
 			else
@@ -49,19 +50,28 @@ class WordsController < ApplicationController
 	end
 
 	def dec_votes
-		
 		@word_id = params[:id]
 		@word = Word.where(id: @word_id).take!
+
+		@all = @word.votes + @word.downvotes
+
+		@new_factor = find_factor(@word.votes, @all)
 		@new_votes = @word.downvotes+1
-		@word.update_attribute(:downvotes, @new_votes)
+
+		@word.update_attributes(:downvotes => @new_votes,:factor => @new_factor)
 		redirect_to :back
 	end
 
 	def inc_votes
 		@word_id = params[:id]
 		@word = Word.where(id: @word_id).take!
+
+		@all = @word.votes + @word.downvotes
+
+		@new_factor = find_factor(@word.votes, @all)
 		@new_votes = @word.votes+1
-		@word.update_attribute(:votes, @new_votes)
+
+		@word.update_attributes(:votes => @new_votes,:factor => @new_factor)
 		redirect_to :back
 	end
 
@@ -69,6 +79,13 @@ class WordsController < ApplicationController
 
 	def word_params
 	  params.require(:word).permit(:word, :description, :language)
+	end
+
+	def find_factor(upvotes, allvotes)
+ 		z = Statistics2.pnormaldist(1-(1-0.975)/2)
+ 		phat = 1.0*upvotes/allvotes
+ 		factor =  (phat + z*z/(2*allvotes) - z * Math.sqrt((phat*(1-phat)+z*z/(4*allvotes))/allvotes))/(1+z*z/allvotes)
+ 		return factor
 	end
 
 	

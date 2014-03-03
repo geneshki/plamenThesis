@@ -137,6 +137,12 @@
     </form>
     <div class="span2"></div>
     <form action="/index" method="get">
+       <%if @src%>
+      <div class="span2"></div>
+    <% end %>
+    <% if !@src%>
+      <div class="span10"></div>
+    <%end%>
     <div class="span3">
       <input id="usr" name="usr" type="text" style="height:32px" placeholder="search words by user">
     </div>
