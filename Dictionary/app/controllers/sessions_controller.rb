@@ -8,8 +8,11 @@ class SessionsController < ApplicationController
           
   end
   def create
+      @reg = Registration.where(username: params[:session][:username]).take!
+      salt = @reg.salt
+      @encrypted_password = BCrypt::Engine.hash_secret(params[:session][:password], salt)
       
-      reg = Registration.authenticate(params[:session][:username],params[:session][:password])
+      reg = Registration.authenticate(params[:session][:username],@encrypted_password)
     
       if reg
         session[:reg_id] = reg.id

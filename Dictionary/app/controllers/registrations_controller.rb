@@ -32,6 +32,9 @@ class RegistrationsController < ApplicationController
 					else
 						if password_check(@reg_params[:password],@reg_params[:cpassword])
 							@reg_params.except!(:cpassword)
+							@reg_params[:salt] = BCrypt::Engine.generate_salt
+							@encrypted_password = BCrypt::Engine.hash_secret(@reg_params[:password], @reg_params[:salt])
+							@reg_params[:password] = @encrypted_password
 							@reg = Registration.new(@reg_params)
 							if @reg.save
 								redirect_to(:controller => "home", :action =>"index")

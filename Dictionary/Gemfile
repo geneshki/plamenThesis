@@ -27,6 +27,7 @@ gem 'jquery-rails'
 gem 'turbolinks'
 gem 'elasticsearch', git: 'git://github.com/elasticsearch/elasticsearch-ruby.git'
 gem 'statistics2'
+gem 'bcrypt-ruby', :require => 'bcrypt' 
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 1.2'
