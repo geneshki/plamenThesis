@@ -9,7 +9,7 @@ class HomeController < ApplicationController
         @search = params[:usr]
         @src = Word.where(author: @search).order('factor DESC')
         if @src.empty?
-          $error = "User doesn't exist. Sorry."
+          $error = "No words from that user. Sorry."
           redirect_to(:controller => 'home', :action => 'index')
         end
       end
@@ -32,7 +32,6 @@ class HomeController < ApplicationController
   end
 
   def random
-    @q = rand(5..30)
     @rand = Word.limit(1).order("RAND()").take
   end
 end

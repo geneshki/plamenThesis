@@ -5,7 +5,6 @@ class ApplicationController < ActionController::Base
 
 	def authenticte_reg
 		if session[:reg_id]
-			@current_reg = Registration.where(id: session[:reg_id]).take
 			return true
 		else
 			 redirect_to(:controller => 'sessions', :action => 'new')

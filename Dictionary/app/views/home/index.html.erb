@@ -11,18 +11,10 @@
     <link href="app/assets/stylesheets/bootstrap.css" rel="stylesheet">
     <link href="app/assets/stylesheets/custom.css" rel="stylesheet">
     
+    
   </head>
 
   <body>
-    <div id="fb-root"></div>
-      <script>(function(d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s); js.id = id;
-        js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1";
-        fjs.parentNode.insertBefore(js, fjs);
-      }(document, 'script', 'facebook-jssdk'));
-      </script>
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container">
         <div class="navbar-header">
@@ -103,15 +95,25 @@
               @up = (word.votes.to_f / (word.votes+word.downvotes))*100
               @down = (word.downvotes.to_f / (word.votes+word.downvotes))*100
                   
-               
+              @voted = word.voted.split(",")
+              @voted.each do |voted|
+                if voted == session[:reg_id]
+                  @has_voted = 1
+                else
+                  @has_voted = 0
+                end
+              end
               @desc = word.description.split(/(\b[^\s]+\b)/)
+              if session[:reg_id]
+                @neg = session[:reg_id]*(-1)
+              end
+              
           %>
           
             <div id="<%= word.id %>" class="span7" style="border:solid; margin-top:5px;border: 1px solid #DDDDDD;border-top-right-radius:3em;">
 
             <div class="span6" style="margin-top:20px;">
              <div class="span3"><a class="wordlink" href="/index?src=<%=word.word%>"><%=word.word%></a></div> 
-             <div class="span2"><div class="fb-share-button" data-href="http://asdf.org" data-type="button_count"></div></div>
             </div>
             
             <div class="span6">
@@ -123,7 +125,7 @@
                 </p>
             </div>
 
-            <div class="span6">
+            <div name="<%=word.id%>" id="<%= session[:reg_id]%>" class="cv span6">
               <hr>
               <div class="progress">
                 <div class="progress-bar progress-bar-success" style="width:<%= @up %>%">
@@ -136,9 +138,23 @@
                 </div>
               </div>
               <% if session[:reg_id]%>
-                <button id="u<%= word.id %>" class="up btn btn-success">+</button>
-                <button id="d<%= word.id %>" class="down btn btn-danger">-</button>
-              <% end %>
+                
+                  <%if @voted.include?(session[:reg_id].to_s) %>
+                    <button id="up<%= session[:reg_id]%>" class="btn btn-primary">Change your vote</button>
+                  <%end%>
+                  
+                  <%if @voted.include?(session[:reg_id].to_s) == false and @voted.include?(@neg.to_s) == false%>
+                    <button id="u<%= word.id %>" class="up btn btn-success">+</button>
+                    <button id="d<%= word.id %>" class="down btn btn-danger">-</button>
+                  <%end%>
+                  <%if @voted.include?(@neg.to_s) %>
+                    <button id="down<%= session[:reg_id]%>" class="btn btn-primary">Change your vote</button>
+                  <%end%>
+                 
+                  
+                <%end%>
+               
+              
             </div>
 
             <div class="span2">
@@ -198,7 +214,8 @@
      <button class="btn btn-lg btn-primary btn-block" style="width:100px">Search</button>
     </form>
     <script type="text/javascript" src="assets/javascript/bootstrap.js"/>
-     <script type="text/javascript" src="assets/javascript/votes.js"/>
+    <script type="text/javascript" src="assets/javascript/votes.js"/>
+    <script type="text/javascript" src="assets/javascript/changevotes.js"/>
     <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"/>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"/> 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"/>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140303211108) do
+ActiveRecord::Schema.define(version: 20140307093749) do
 
   create_table "registrations", force: true do |t|
     t.string   "username"
@@ -32,6 +32,7 @@ ActiveRecord::Schema.define(version: 20140303211108) do
     t.string   "author"
     t.integer  "downvotes"
     t.float    "factor"
+    t.string   "voted"
   end
 
 end

@@ -1,6 +1,5 @@
 $(document).ready(function(){
 		
-			
 			$(".span7").each(function(){
 					
 				var id = $(this).attr('id');
@@ -35,4 +34,4 @@ $(document).ready(function(){
 			location.reload(true);	
 		});
 				
-		});
+});

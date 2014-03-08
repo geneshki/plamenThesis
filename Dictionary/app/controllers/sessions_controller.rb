@@ -26,6 +26,7 @@ class SessionsController < ApplicationController
 
   def destroy
     session[:reg_id] = nil
+    session[:reg_username] = nil
     redirect_to(:controller => 'home', :action =>'index')
   end
   def profile

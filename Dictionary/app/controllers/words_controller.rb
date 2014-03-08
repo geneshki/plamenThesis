@@ -9,7 +9,7 @@ class WordsController < ApplicationController
 	end
 
 	def create
-	
+		@word = Word.new
 		@word_params = word_params
 		if @word_params[:word].blank? || @word_params[:description].blank? || @word_params[:language].blank?
 			$error = "Fill in all the fields!"
@@ -19,9 +19,10 @@ class WordsController < ApplicationController
 			@author = @author.username
 			@word = Word.new(@word_params)
 			@word.author = @author
-			@word.factor = 0;
-			@word.votes = 0;
-			@word.downvotes = 0;
+			@word.factor = 0
+			@word.votes = 0
+			@word.downvotes = 0
+			@word.voted = ""
 			if @word.save
 				redirect_to(:controller => "home", :action => "index")
 			else
@@ -44,21 +45,23 @@ class WordsController < ApplicationController
 
 	def destroy
 		@word = Word.find(params[:id])
-		@rel = @word.word
 		@word.destroy
     	redirect_to :back
 	end
 
 	def dec_votes
+	
 		@word_id = params[:id]
 		@word = Word.where(id: @word_id).take!
-
+		@id = session[:reg_id] * (-1)
+		@word.voted =@word.voted + @id.to_s + ","
+		
 		@all = @word.votes + @word.downvotes
 
 		@new_factor = find_factor(@word.votes, @all)
 		@new_votes = @word.downvotes+1
 
-		@word.update_attributes(:downvotes => @new_votes,:factor => @new_factor)
+		@word.update_attributes(:downvotes => @new_votes,:factor => @new_factor,:voted =>@word.voted)
 		redirect_to :back
 	end
 
@@ -66,12 +69,41 @@ class WordsController < ApplicationController
 		@word_id = params[:id]
 		@word = Word.where(id: @word_id).take!
 
+		@word.voted =@word.voted + session[:reg_id].to_s + ","
+
 		@all = @word.votes + @word.downvotes
 
 		@new_factor = find_factor(@word.votes, @all)
 		@new_votes = @word.votes+1
 
-		@word.update_attributes(:votes => @new_votes,:factor => @new_factor)
+		@word.update_attributes(:votes => @new_votes,:factor => @new_factor,:voted =>@word.voted)
+		redirect_to :back
+	end
+
+	def dec_upvotes
+		@word = Word.where(id: params[:word_id]).take!
+		@new_votes = @word.votes - 1
+		@all = @new_votes + @word.downvotes
+		@new_factor =find_factor(@new_votes, @all)
+		@voted = @word.voted
+		@v = @voted.split(",")
+		@v.delete(params[:user_id])
+		@voted = @v.join(",")
+		@word.update_attributes(:votes => @new_votes,:factor => @new_factor,:voted =>@voted)
+		redirect_to :back
+	end
+
+	def dec_downvotes
+		@word = Word.where(id: params[:word_id]).take!
+		@new_votes = @word.downvotes - 1
+		@all = @new_votes + @word.votes
+		@new_factor =find_factor(@word.votes, @all)
+		@voted = @word.voted
+		@v = @voted.split(",")
+		@neg = params[:user_id].to_i*(-1)
+		@v.delete(@neg.to_s)
+		@voted = @v.join(",")
+		@word.update_attributes(:downvotes => @new_votes,:factor => @new_factor,:voted =>@voted)
 		redirect_to :back
 	end
 

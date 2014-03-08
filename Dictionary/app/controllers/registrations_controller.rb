@@ -13,7 +13,8 @@ class RegistrationsController < ApplicationController
 	end
 
 	def create
-			
+			@reg = Registration.new
+
 			@reg_params = regitration_params
 			
 			if @reg_params[:username].blank? || @reg_params[:password].blank? || @reg_params[:email].blank?
@@ -49,7 +50,6 @@ class RegistrationsController < ApplicationController
 					end
 				end
 			end
-		
 	end
 
 	private
