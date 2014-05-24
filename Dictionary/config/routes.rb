@@ -7,9 +7,7 @@ Dictionary::Application.routes.draw do
   get "sessions/profile"
   get "words/inc_votes"
   get "words/dec_votes"
-  get "words/dec_upvotes"
-  get "words/dec_upvotes"
-  get "words/dec_downvotes"
+  get "words/decreace_votes"
   get "index", :to => "home#index"
   get "random", :to => "home#random"
   resources :registrations

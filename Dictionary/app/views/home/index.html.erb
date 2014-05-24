@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="shortcut icon" href="http://getbootstrap.com/docs-assets/ico/favicon.png">
@@ -90,24 +91,13 @@
               if @author
                 @author_username = @author.username
               end
+
               @src.each do |word|
                 
               @up = (word.votes.to_f / (word.votes+word.downvotes))*100
               @down = (word.downvotes.to_f / (word.votes+word.downvotes))*100
                   
-              @voted = word.voted.split(",")
-              @voted.each do |voted|
-                if voted == session[:reg_id]
-                  @has_voted = 1
-                else
-                  @has_voted = 0
-                end
-              end
               @desc = word.description.split(/(\b[^\s]+\b)/)
-              if session[:reg_id]
-                @neg = session[:reg_id]*(-1)
-              end
-              
           %>
           
             <div id="<%= word.id %>" class="span7" style="border:solid; margin-top:5px;border: 1px solid #DDDDDD;border-top-right-radius:3em;">
@@ -138,22 +128,18 @@
                 </div>
               </div>
               <% if session[:reg_id]%>
-                
-                  <%if @voted.include?(session[:reg_id].to_s) %>
-                    <button id="up<%= session[:reg_id]%>" class="btn btn-primary">Change your vote</button>
-                  <%end%>
-                  
-                  <%if @voted.include?(session[:reg_id].to_s) == false and @voted.include?(@neg.to_s) == false%>
-                    <button id="u<%= word.id %>" class="up btn btn-success">+</button>
-                    <button id="d<%= word.id %>" class="down btn btn-danger">-</button>
-                  <%end%>
-                  <%if @voted.include?(@neg.to_s) %>
-                    <button id="down<%= session[:reg_id]%>" class="btn btn-primary">Change your vote</button>
-                  <%end%>
-                 
-                  
+                    
+                <%if !Vote.where(user_id: session[:reg_id],word_id: word.id).exists?%>
+                  <button id="u<%= word.id %>" class="up btn btn-success">+</button>
+                  <button id="d<%= word.id %>" class="down btn btn-danger">-</button>              
                 <%end%>
-               
+                <%if Vote.where(user_id: session[:reg_id],word_id: word.id).exists? %>
+                    <div id="<%= word.id %>" class="cv" name="<%=session[:reg_id]%>">
+                      <button id="pie" class="btn btn-primary cv">Change Vote</button>    
+                    </div>  
+                <%end%>
+              <%end%>
+             
               
             </div>
 
@@ -193,9 +179,11 @@
     <%if @src%>
       <div class="span2"></div>
     <% end %>
-    <% if !@src%>
+    <% if !@src %>
       <div class="span10"></div>
     <%end%>
+     
+
     <div class="span3">
       <input id="usr" name="usr" type="text" style="height:32px" placeholder="search words by user">
     </div>

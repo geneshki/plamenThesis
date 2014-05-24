@@ -137,12 +137,6 @@
     </form>
     <div class="span2"></div>
     <form action="/index" method="get">
-       <%if @src%>
-      <div class="span2"></div>
-    <% end %>
-    <% if !@src%>
-      <div class="span10"></div>
-    <%end%>
     <div class="span3">
       <input id="usr" name="usr" type="text" style="height:32px" placeholder="search words by user">
     </div>
@@ -157,6 +151,8 @@
     </form>
     <script type="text/javascript" src="assets/javascript/bootstrap.js"/>
     <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"/>
+    <script type="text/javascript" src="assets/javascript/votes.js"/>
+    <script type="text/javascript" src="assets/javascript/changevotes.js"/>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"/>
     <script type="text/javascript" src="assets/javascript/votes.js"></script>
   </body>

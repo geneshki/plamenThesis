@@ -7,11 +7,10 @@ class ApplicationController < ActionController::Base
 		if session[:reg_id]
 			return true
 		else
-			 redirect_to(:controller => 'sessions', :action => 'new')
+			 redirect_to(:controller => 'home', :action => 'index')
 			 return false
 		end
 	end
-
 	def save_login_state
 		if session[:reg_id]
 			redirect_to(:controller => 'home', :action => 'index')

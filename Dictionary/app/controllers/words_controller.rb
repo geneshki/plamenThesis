@@ -1,5 +1,5 @@
 class WordsController < ApplicationController
-
+before_filter :authenticte_reg
 	def new
 		@word = Word.new
 	end
@@ -22,7 +22,6 @@ class WordsController < ApplicationController
 			@word.factor = 0
 			@word.votes = 0
 			@word.downvotes = 0
-			@word.voted = ""
 			if @word.save
 				redirect_to(:controller => "home", :action => "index")
 			else
@@ -49,63 +48,66 @@ class WordsController < ApplicationController
     	redirect_to :back
 	end
 
-	def dec_votes
-	
+	def decreace_votes
+		
+		@relation = Vote.new
 		@word_id = params[:id]
 		@word = Word.where(id: @word_id).take!
-		@id = session[:reg_id] * (-1)
-		@word.voted =@word.voted + @id.to_s + ","
 		
-		@all = @word.votes + @word.downvotes
+		@relation.user_id = session[:reg_id]
+		@relation.word_id = @word_id
+		@relation.vote_value = 0
+		@new_votes = @word.downvotes+1
+		@all = @new_votes + @word.downvotes
 
 		@new_factor = find_factor(@word.votes, @all)
-		@new_votes = @word.downvotes+1
+		
 
-		@word.update_attributes(:downvotes => @new_votes,:factor => @new_factor,:voted =>@word.voted)
+		@word.update_attributes(:downvotes => @new_votes,:factor => @new_factor)
+		@relation.save
 		redirect_to :back
 	end
 
 	def inc_votes
+		@relation = Vote.new
 		@word_id = params[:id]
 		@word = Word.where(id: @word_id).take!
 
-		@word.voted =@word.voted + session[:reg_id].to_s + ","
-
-		@all = @word.votes + @word.downvotes
+		@relation.user_id = session[:reg_id]
+		@relation.word_id = @word_id
+		@relation.vote_value = 1
+		@new_votes = @word.votes+1
+		@all = @new_votes + @word.downvotes
 
 		@new_factor = find_factor(@word.votes, @all)
-		@new_votes = @word.votes+1
+		
 
-		@word.update_attributes(:votes => @new_votes,:factor => @new_factor,:voted =>@word.voted)
+		@word.update_attributes(:votes => @new_votes,:factor => @new_factor)
+		@relation.save
 		redirect_to :back
 	end
 
-	def dec_upvotes
+	
+	def dec_votes
 		@word = Word.where(id: params[:word_id]).take!
-		@new_votes = @word.votes - 1
-		@all = @new_votes + @word.downvotes
-		@new_factor =find_factor(@new_votes, @all)
-		@voted = @word.voted
-		@v = @voted.split(",")
-		@v.delete(params[:user_id])
-		@voted = @v.join(",")
-		@word.update_attributes(:votes => @new_votes,:factor => @new_factor,:voted =>@voted)
+		@vote = Vote.where(word_id: params[:word_id]).take
+		if @vote.vote_value == 0 && @vote.user_id == params[:reg_id].to_i
+			@new_votes = @word.downvotes - 1
+			@all = @new_votes + @word.votes
+			@new_factor =find_factor(@new_votes, @all)
+			@word.update_attributes(:downvotes => @new_votes,:factor => @new_factor)
+		end
+		if @vote.vote_value == 1 && @vote.user_id == params[:reg_id].to_i
+			@new_votes = @word.votes - 1
+			@all = @new_votes + @word.downvotes
+			@new_factor =find_factor(@new_votes, @all)
+			@word.update_attributes(:votes => @new_votes,:factor => @new_factor)
+		end
+		@vote.destroy
+		
 		redirect_to :back
 	end
-
-	def dec_downvotes
-		@word = Word.where(id: params[:word_id]).take!
-		@new_votes = @word.downvotes - 1
-		@all = @new_votes + @word.votes
-		@new_factor =find_factor(@word.votes, @all)
-		@voted = @word.voted
-		@v = @voted.split(",")
-		@neg = params[:user_id].to_i*(-1)
-		@v.delete(@neg.to_s)
-		@voted = @v.join(",")
-		@word.update_attributes(:downvotes => @new_votes,:factor => @new_factor,:voted =>@voted)
-		redirect_to :back
-	end
+	
 
 	private
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140307093749) do
+ActiveRecord::Schema.define(version: 20140512064336) do
 
   create_table "registrations", force: true do |t|
     t.string   "username"
@@ -20,6 +20,14 @@ ActiveRecord::Schema.define(version: 20140307093749) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "salt"
+  end
+
+  create_table "votes", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "word_id"
+    t.integer  "vote_value"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "words", force: true do |t|
@@ -32,7 +40,6 @@ ActiveRecord::Schema.define(version: 20140307093749) do
     t.string   "author"
     t.integer  "downvotes"
     t.float    "factor"
-    t.string   "voted"
   end
 
 end

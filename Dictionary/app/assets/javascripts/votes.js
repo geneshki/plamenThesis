@@ -7,15 +7,16 @@ $(document).ready(function(){
 				$("#d"+id).click(function(){
 				
 				$.ajax({
-					url:'words/dec_votes',
+					url:'words/decreace_votes',
 					method:'GET',
 					data: {
 	            		'id': id
 	    			},
-					dataType: "json"
+					dataType: "json",
 				});
 
 			});
+
 			$("#u"+id).click(function(){
 				
 				$.ajax({

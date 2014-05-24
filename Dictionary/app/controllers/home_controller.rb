@@ -1,6 +1,5 @@
 class HomeController < ApplicationController
   def index
-      
       if params[:letter]
         @src = Word.search_by_prefix(params[:letter]).order('word ASC').to_a
       end
