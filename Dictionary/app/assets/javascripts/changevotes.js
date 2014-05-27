@@ -4,13 +4,13 @@ $(document).ready(function(){
 		var id = $(this).attr('id');
 		var r_id = $(this).attr('name');
 
-		$("#pie").click(function(){
+		$("#"+id+"c").click(function(){
 			$.ajax({
 					url:'words/dec_votes',
 					method:'GET',
 					data: {
-	            		'word_id': r_id,
-	            		'reg_id': id
+	            		'word_id': id,
+	            		'reg_id': r_id
 	    			},
 					dataType: "json"
 				});

@@ -72,7 +72,7 @@
       <div class="span2" >
         <ul class="nav nav-tabs nav-stacked">
             <li class="active">
-                <a href="index">Home</a>
+                <a href="home">Home</a>
             </li>
             <li>
               <a href="/random">random</a>
@@ -135,7 +135,7 @@
                 <%end%>
                 <%if Vote.where(user_id: session[:reg_id],word_id: word.id).exists? %>
                     <div id="<%= word.id %>" class="cv" name="<%=session[:reg_id]%>">
-                      <button id="pie" class="btn btn-primary cv">Change Vote</button>    
+                      <button id="<%= word.id %>c" class="btn btn-primary">Change Vote</button>
                     </div>  
                 <%end%>
               <%end%>

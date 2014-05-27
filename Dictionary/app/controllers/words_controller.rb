@@ -89,6 +89,7 @@ before_filter :authenticte_reg
 
 	
 	def dec_votes
+		
 		@word = Word.where(id: params[:word_id]).take!
 		@vote = Vote.where(word_id: params[:word_id]).take
 		if @vote.vote_value == 0 && @vote.user_id == params[:reg_id].to_i

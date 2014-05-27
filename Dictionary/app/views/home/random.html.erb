@@ -56,7 +56,7 @@
             </li>
             <%("a".."z").each do |letter|%>
             <li>
-              <a href="#"><%= letter %></a>
+              <a href="/index?letter=<%= letter %>"><%= letter %></a>
             </li>
             <% end %>
         </ul>
@@ -80,12 +80,13 @@
 
          %>
         <div class="span8">
-          <div class="span7" style="border:solid; margin-top:5px;border: 1px solid #DDDDDD;border-top-right-radius:3em;">
-              <div class="span2">
-                <h1><%= @rand.word %></h1>
-                <hr>
-              </div>
+           <div id="<%= @rand.id %>" class="span7" style="border:solid; margin-top:5px;border: 1px solid #DDDDDD;border-top-right-radius:3em;">
+
+            <div class="span6" style="margin-top:20px;">
+             <div class="span3"><a class="wordlink" href="/index?src=<%=@rand.word%>" ><%=@rand.word%></a></div> 
+            </div>
               <div class="span6">
+                <hr>
                 <p>
                   <% @desc.each do |desc|%>
                     <a href="/index?src=<%= desc %>"><%= desc %></a>
@@ -104,8 +105,18 @@
                   <p><%= @rand.downvotes%></p>
                 </div>
               </div>
-              <button id="up" class="btn btn-success">+</button>
-              <button id="down" class="btn btn-danger">-</button>
+              <% if session[:reg_id]%>
+                    
+                <%if !Vote.where(user_id: session[:reg_id],word_id: @rand.id).exists?%>
+                  <button id="u<%= @rand.id %>" class="up btn btn-success">+</button>
+                  <button id="d<%= @rand.id %>" class="down btn btn-danger">-</button>              
+                <%end%>
+                <%if Vote.where(user_id: session[:reg_id],word_id: @rand.id).exists? %>
+                    <div id="<%= @rand.id %>" class="cv" name="<%=session[:reg_id]%>">
+                      <button id="<%= @rand.id %>c" class="btn btn-primary">Change Vote</button>
+                    </div>  
+                <%end%>
+              <%end%>
             </div>
             <div class="span2">
               <p>by <%= @rand.author %></p>
@@ -151,7 +162,7 @@
     </form>
     <script type="text/javascript" src="assets/javascript/bootstrap.js"/>
     <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"/>
-    <script type="text/javascript" src="assets/javascript/votes.js"/>
+     <script type="text/javascript" src="assets/javascript/votes.js"/>
     <script type="text/javascript" src="assets/javascript/changevotes.js"/>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"/>
     <script type="text/javascript" src="assets/javascript/votes.js"></script>
